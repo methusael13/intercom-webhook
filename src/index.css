@@ -1,0 +1,9 @@
+
+html, body { height: 100%; }
+body {
+  margin: 0 auto;
+  background-color: #e6ecf0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#root { height: 100%; }

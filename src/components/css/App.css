@@ -1,0 +1,26 @@
+* { outline: none; box-sizing: border-box; }
+
+.app { height: 100%; }
+
+.app-container {
+  max-width: 890px; min-width: 890px;
+  margin: 0 auto;
+}
+
+.text-small, .link-small { font-size: 0.7em; }
+.link-small { text-decoration: none; }
+.link-small:hover {
+  text-decoration: underline;
+  color: #1b95e0;
+}
+
+.theme-text-light { color: #444; }
+.theme-text-red { color: #ff3366; }
+.theme-text-accent { color: #fbbd08; }
+.theme-text-header-normal { color: #fafafa; }
+.theme-text-header-idle { color: #596377; }
+.theme-text-header-idle:hover { color: #fafafa; }
+
+@media screen and (min-width: 1200px) {
+  .app-container { min-width: 1190px; }
+}

@@ -1,0 +1,27 @@
+
+.action-btn {
+  border: none; border-radius: 4px;
+  color: #fff; background-color: #596377;
+  font-family: 'Lato'; font-size: 0.9rem;
+  font-weight: bold; padding: 0.5em 1.2em;
+  cursor: pointer; position: relative;
+
+  transition: all 0.15s ease-in-out;
+}
+.action-btn:hover { background-color: #383e4a; }
+.action-btn > .icon { margin-left: 0.6em;  }
+
+.action-btn-ext { top: 0; }
+.action-btn-ext:active { top: 2px; }
+
+.act-btn-idle {}
+.act-btn-proc {}
+.act-btn-success {}
+.act-btn-error {}
+
+.btn-submit { min-width: 8rem; }
+.btn-submit.act-btn-idle, .btn-submit.act-btn-proc {
+  background-color: #fbbd08;
+}
+.btn-submit.act-btn-success { background-color: #1bbfa0; }
+.btn-submit.act-btn-error { background-color: #f44336; }

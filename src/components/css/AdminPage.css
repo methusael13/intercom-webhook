@@ -1,0 +1,53 @@
+
+.app-header {
+  padding: 1.8em 0 0.8em 0;
+  background-color: #1f2532;
+}
+
+.app-panel {
+  display: flex; font-size: 0.8em;
+  font-family: 'Josefin Sans', Arial, sans-serif;
+  justify-content: space-between;
+}
+.app-screen-panel {
+  font-family: 'Open Sans', sans-serif;
+  padding: 0.5em 0 0.2em 0;
+  font-size: 3em; font-weight: 300;
+}
+.app-screen-panel > .text {}
+
+.logo-wrapper {
+  text-transform: uppercase; font-weight: bold;
+}
+.logo-wrapper > .icon {}
+.logo-wrapper > .title {
+  margin-left: 0.8em; letter-spacing: 0.2em;
+}
+.app-panel > .logo-wrapper { margin-left: -1.6em; }
+
+.user-control-wrapper {
+  text-transform: uppercase;
+  font-size: 0.8em; font-weight: bold;
+}
+.user-control-wrapper > .control-item {
+  margin-right: 2em; cursor: pointer;
+  transition: color 0.15s ease-in-out;
+}
+.user-control-wrapper > .control-item:last-child {
+  margin-right: 0;
+}
+
+.user-control-wrapper > .user-name {}
+.user-control-wrapper > .user-action {}
+
+/* App content */
+.app-content { padding: 2em 0; }
+
+/* Action buttons */
+.btn-panel {}
+.app-content > .btn-panel {
+  text-align: right; margin-bottom: 1rem;
+}
+
+.btn-panel > button { margin-right: 1rem; }
+.btn-panel > button:last-child { margin-right: 0; }
