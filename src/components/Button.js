@@ -5,18 +5,13 @@ export class ActionButton extends Component {
   constructor(props) {
     super(props);
 
-    this.actionStates = {
-      'IDLE': 0, 'PROCESSING': 1, 'SUCCESS': 2, 'ERROR': 3
-    };
-
-    this.state = { action: this.actionStates.IDLE };
-    this.actionStyles = {
-      0: 'act-btn-idle', 1: 'act-btn-proc', 2: 'act-btn-success',
-      3: 'act-btn-error'
+    /* Set action properties */
+    this.actionStyles = this.props.actionStyle || {
+      'idle': 'act-btn-idle', 'processing': 'act-btn-proc',
+      'success': 'act-btn-success', 'error': 'act-btn-error'
     };
 
     /* Bind class methods */
-    this.initActionProps = this.initActionProps.bind(this);
     this.handleAction = this.handleAction.bind(this);
 
     this.getIcon = this.getIcon.bind(this);
@@ -24,22 +19,9 @@ export class ActionButton extends Component {
     this.getValue = this.getValue.bind(this);
   }
 
-  /* Must be called at least once before the first render */
-  initActionProps(values, icons) {
-    this.actionValues = values && {
-      0: values.idle || '', 1: values.processing || '',
-      2: values.success || '', 3: values.error || ''
-    };
-
-    this.actionIcons = icons && {
-      0: icons.idle || '', 1: icons.processing || '',
-      2: icons.success || '', 3: icons.error || ''
-    };
-  }
-
-  getIcon() { return this.actionIcons[this.state.action] || ''; }
-  getStyle() { return this.actionStyles[this.state.action] || ''; }
-  getValue() { return this.actionValues[this.state.action] || ''; }
+  getStyle() { return this.actionStyles[this.props.actionState] || ''; }
+  getIcon() { return this.props.actionIcons[this.props.actionState] || ''; }
+  getValue() { return this.props.actionValues[this.props.actionState] || ''; }
 
   /* Must be overridden by child classes to define behaviour */
   handleAction(event) {
@@ -54,7 +36,7 @@ export class ActionButton extends Component {
               onClick={ this.handleAction }>
         <span className="text">{ this.getValue() }</span>
         {
-          this.actionIcons && (
+          this.props.actionIcons && (
             <span className="icon">
               <i className={ "fa " + this.getIcon() } aria-hidden="true"></i>
             </span>
@@ -65,44 +47,50 @@ export class ActionButton extends Component {
   }
 }
 
-export class SubmitButton extends ActionButton {
+export class SubmitButton extends Component {
   constructor(props) {
     super(props);
 
     // Initiate properties
-    const icons = {
+    this.icons = this.props.icons || {
       'idle': 'fa-long-arrow-right', 'processing': 'fa-spin fa-spinner',
       'success': 'fa-check', 'error': 'fa-close'
     };
 
-    const values = {
+    this.values = this.props.values || {
       'idle': 'Submit', 'processing': 'Submitting',
       'success': 'Success', 'error': 'Error'
     }
 
-    this.initActionProps(values, icons);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleAction(event) {
-    this.setState((prevState, props) => {
-      let newAction;
-      if (prevState.action === this.actionStates.IDLE)
-        newAction = this.actionStates.PROCESSING;
-      else if (prevState.action === this.actionStates.PROCESSING)
-        newAction = this.actionStates.SUCCESS;
-      else if (prevState.action === this.actionStates.SUCCESS)
-        newAction = this.actionStates.ERROR;
-      else
-        newAction = this.actionStates.IDLE;
+  handleSubmit(event) { this.props.onSubmit(event); }
 
-      return { action: newAction };
-    });
+  render() {
+    return (
+      <ActionButton actionIcons={this.icons} actionValues={this.values}
+                    actionState={this.props.state} btnClass={this.props.className}
+                    action={this.handleSubmit} />
+    )
   }
 }
 
 export class Button extends ActionButton {
   constructor(props) {
     super(props);
-    this.initActionProps({ 'idle': this.props.text }, null);
+    
+    this.values = { 'idle': this.props.text };
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(event) { this.props.onClick(event); }
+
+  render() {
+    return (
+      <ActionButton actionValues={this.values} actionState='idle'
+                    btnClass={this.props.className} action={this.handleClick}
+                    actionIcons={this.props.icons || null} />
+    )
   }
 }

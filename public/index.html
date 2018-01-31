@@ -9,20 +9,39 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
 
-    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,700" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100" rel="stylesheet">
 
     <!-- Title -->
     <title>React App</title>
     
     <!-- Scripts -->
     <script src="https://use.fontawesome.com/0cea9b8ead.js"></script>
+
+    <!-- Intercom App -->
+    <script type="text/javascript">
+      var APP_ID = "wemz4eos";
+
+      window.intercomSettings = { app_id: APP_ID };
+      (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function")
+      {ic('reattach_activator');ic('update',intercomSettings);}else
+      {var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args)
+      {i.q.push(args)};w.Intercom=i;function l()
+      {var s=d.createElement('script');s.type='text/javascript';s.async=true;
+      s.src='https://widget.intercom.io/widget/' + APP_ID;
+      var x=d.getElementsByTagName('script')
+      [0];x.parentNode.insertBefore(s,x);}if(w.attachEvent)
+      {w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
+  </script>
   </head>
   <body>
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
     <div id="root"></div>
+    <script type="text/javascript" src="%PUBLIC_URL%/static/js/app.js"></script>
   </body>
 </html>

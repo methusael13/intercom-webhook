@@ -1,22 +1,10 @@
 import React, { Component } from 'react';
-import Page from './Page';
+
+import Page, { Logo } from './Page';
 import DataTable from './DataTable';
 import { Button, SubmitButton } from './Button';
 
 import './css/AdminPage.css';
-
-class Logo extends Component {
-  render() {
-    return (
-      <div className="logo-wrapper">
-        <span className="icon theme-text-accent">
-          <i className="fa fa-code" aria-hidden="true"></i>
-        </span>
-        <span className="title">{this.props.title}</span>
-      </div>
-    )
-  }
-}
 
 class UserControl extends Component {
   render() {
@@ -38,7 +26,7 @@ class Header extends Component {
         <div className="app-container">
           <div className="app-panel">
             <Logo title="Intercom Webhook" />
-            <UserControl user="Methusael Murmu" />
+            <UserControl user="John Doe" />
           </div>
           <div className="app-screen-panel">
             <span className="text">{this.props.screenTitle}</span>
@@ -58,7 +46,10 @@ class AdminPage extends Component {
 
     // Bind class methods
     this.triggerTableClear = this.triggerTableClear.bind(this);
+    this.triggerDataUpload = this.triggerDataUpload.bind(this);
   }
+
+  triggerDataUpload(event) { console.log('Uploading data...'); }
 
   triggerTableClear(event) { this.setState({ clearTable: true }); }
 
@@ -75,12 +66,12 @@ class AdminPage extends Component {
 
   render() {
     return (
-      <Page>
+      <Page className="app-page-admin">
         <Header screenTitle="Dashboard" />
         <div className="app-content app-container">
           <div className="btn-panel">
-            <Button btnClass="btn-clear" text="Clear" action={this.triggerTableClear} />
-            <SubmitButton btnClass="btn-submit" />
+            <Button className="btn-clear" text="Clear" onClick={this.triggerTableClear} />
+            <SubmitButton onSubmit={this.triggerDataUpload} className="btn-login" state="idle" />
           </div>
           <DataTable clearTable={this.state.clearTable} />
         </div>

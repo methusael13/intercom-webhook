@@ -134,13 +134,13 @@ class DataTable extends Component {
     return (
       <div className="data-table">
         <DataRow idx="#" msgKey="Key" msg="Message" header={true} />
+        <DataRow placeholderRow={true} onAddRow={ this.addRow } />
         {
           this.state.data.map((value, idx) => (
             <DataRow idx={idx + 1} msgKey={value.key} msg={value.message}
                      key={ "data-table-row-item-" + idx } onDeleteRow={ this.deleteRow } />
           ))
         }
-        <DataRow placeholderRow={true} onAddRow={ this.addRow } />
       </div>
     )
   }

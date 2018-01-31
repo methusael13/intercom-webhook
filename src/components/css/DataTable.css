@@ -1,7 +1,7 @@
 
 .data-table {
   font-family: 'Lato', Arial, sans-serif;
-  box-shadow: 0 2em 3em rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2em 3em rgba(0, 0, 0, 0.07);
 }
 .data-row {
   background-color: #fafafa;
