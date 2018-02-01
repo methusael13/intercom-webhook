@@ -135,7 +135,7 @@ class AuthCard extends Component {
   handleTextChange(event) {
     // Get current state
     let _errors = this.state.errors;
-    // If {_errors} is valid reset the error value for
+    // If {_errors} is valid, reset the error value for
     // currently active textfield
     if (_errors) { _errors[event.target.name] = null; }
 
