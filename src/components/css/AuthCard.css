@@ -85,14 +85,21 @@
   font-weight: 300; font-size: 2rem;
   margin-bottom: 3rem; color: #596377;
 }
-.input-wrapper > .input-username {}
-.input-wrapper > .input-password {}
+
 .input-wrapper > .input-username, .input-wrapper > .input-password {
   font-family: 'Lato', Arial, sans-serif;
   width: 100%; border: none;
   background-color: #0000000a;
   padding: 0.6em 0.8em; border-radius: 5px;
   padding-left: 2.4em; color: inherit;
+}
+.input-wrapper > .input-username {}
+.input-wrapper > .input-password {}
+.input-wrapper > .error-text {
+  position: absolute;
+  bottom: -1.3em; right: 0;
+  font-size: 0.7em; color: #EF5350;
+  font-family: 'Source Sans Pro';
 }
 
 .btn-login.act-btn-idle,

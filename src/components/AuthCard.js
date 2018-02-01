@@ -17,6 +17,10 @@ class TextField extends Component {
                name={this.props.name} placeholder={this.props.placeholder}
                value={this.props.value}
                onChange={this.props.onTextChange} required />
+        {
+          this.props.error &&
+          <span className="error-text">{this.props.error}</span>
+        }
       </div>
     )
   }
@@ -52,6 +56,10 @@ class PasswordField extends Component {
         <span className="view-icon" onClick={this.togglePasswordVisibility} >
           <i className={ "fa " + vis_icon } aria-hidden="true"></i>
         </span>
+        {
+          this.props.error &&
+          <span className="error-text">{this.props.error}</span>
+        }
       </div>
     )
   }
@@ -88,7 +96,7 @@ class AuthCard extends Component {
     this.styles = {
       backgroundImage: 'url(' + this.props.coverImage + ')'
     }
-    this.state = { username: '', password: '' };
+    this.state = { username: '', password: '', errors: null };
 
     // Login button state texts
     this.loginTexts = {
@@ -96,24 +104,62 @@ class AuthCard extends Component {
       'success': 'Logged in', 'error': 'Error'
     };
 
+    // Reference to the Form DOM
+    this.form = null;
+
     // Bind methods to this
     this.triggerLogin = this.triggerLogin.bind(this);
     this.triggerClose = this.triggerClose.bind(this);
+    this.getValidationErrors = this.getValidationErrors.bind(this);
     this.handleTextChange = this.handleTextChange.bind(this);
   }
 
+  getValidationErrors() {
+    // Error info
+    let error = {};
+    
+    // Check if username violates any validation rules
+    if (this.state.username.length === 0)
+      error.username = 'Username cannot be empty';
+
+    // Check if password violates any validation rules
+    if (this.state.password.length === 0)
+      error.password = 'Password cannot be empty';
+    else if (this.state.password.length < 6)
+      error.password = 'Password must be greater than 5 characters';
+
+    // Return null if {error} is empty, or else the object itself
+    return Object.keys(error).length === 0 ? null : error;
+  }
+
   handleTextChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
+    // Get current state
+    let _errors = this.state.errors;
+    // If {_errors} is valid reset the error value for
+    // currently active textfield
+    if (_errors) { _errors[event.target.name] = null; }
+
+    this.setState({
+      [event.target.name]: event.target.value, errors: _errors
+    });
   }
 
   triggerLogin(event) {
-    console.log('User: ' + this.state.username);
-    console.log('Password: ' + this.state.password);
+    let _errors = {};
+
+    if ((_errors = this.getValidationErrors())) {
+      this.setState({ errors: { ..._errors } });
+    } else {
+      // Perform login here
+    }
   }
 
   triggerClose(event) { this.props.onClose && this.props.onClose(event); }
 
   render() {
+    // Test for validation errors
+    let _errors = this.state.errors ? this.state.errors : {};
+
     return (
       <ModalWindow>
         <div className="auth-card auth-card-position">
@@ -130,14 +176,16 @@ class AuthCard extends Component {
           </div>
           <div className="auth-card-form-section">
             <CloseButton size="1rem" onClick={this.triggerClose} />
-            <form className="auth-login-form">
+            <form className="auth-login-form" ref={(dom) => { this.form = dom; }} >
               <div className="form-title">Sign in to Dashboard</div>
               <TextField className="input-username" icon="fa-user" name="username"
                          placeholder="Username" value={this.state.username}
-                         onTextChange={this.handleTextChange} />
+                         onTextChange={this.handleTextChange}
+                         error={ _errors.username } />
               <PasswordField className="input-password" name="password"
                              placeholder="Password" value={this.state.password}
-                             onTextChange={this.handleTextChange} />
+                             onTextChange={this.handleTextChange}
+                             error={ _errors.password } />
               <SubmitButton onSubmit={this.triggerLogin} values={this.loginTexts}
                             className="btn-login" state="idle" />
             </form>

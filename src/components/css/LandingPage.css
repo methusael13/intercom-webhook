@@ -1,4 +1,7 @@
-.app-page-user { background-color: #1f2532; }
+.app-page-user {
+  position: relative;
+  background-color: #1f2532;
+}
 
 .canvas-wrapper {
   position: fixed;
@@ -66,6 +69,8 @@
 
 .app-page-user .app-content {
   display: flex; height: 80%;
+  position: absolute; top: 0;
+  left: 0; right: 0; z-index: 5;
 }
 
 .app-content .content-left { flex: 4; }

@@ -88,13 +88,15 @@ class CanvasWorker {
   }
 
   render(duration, epoch) {
-    this.drawWave(this.canvas.height * 0.8, (x) => {
+    const wavey = this.canvas.height * 0.85;
+
+    this.drawWave(wavey, (x) => {
       let octave0 = 50.0 * Math.sin(x * this.xscale * 0.4 - epoch);
       let octave1 = 30.0 * Math.sin(x * this.xscale * 0.8 - 1.1 * epoch);
       return octave0 + octave1;
     }, 'rgba(255, 255, 255, 0.8)', true);
 
-    this.drawWave(this.canvas.height * 0.8, (x) => {
+    this.drawWave(wavey, (x) => {
       let octave0 = 50.0 * Math.sin(x * this.xscale * 0.3 + epoch);
       let octave1 = 20.0 * Math.sin(x * this.xscale + 1.5 * epoch);
       return octave0 + octave1;
