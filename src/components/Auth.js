@@ -71,9 +71,12 @@ class Auth {
     this.isLoggedIn = this.isLoggedIn.bind(this);
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
+
+    // Hasura status code constants
+    this.INVALID_CREDENTIALS = 'invalid-creds';
   }
 
-  getUsername() { this.isLoggedIn() ? this.user.username : ''; }
+  getUsername() { return this.isLoggedIn() ? this.user.username : ''; }
   setUsername(username) { this.user.username = username; this.saveUser(); }
 
   setUserInfo(user_info) {
@@ -121,8 +124,6 @@ class Auth {
       login_url, request_opts,
       // Success callback
       (result) => {
-        appLog("User logged in with token: " + result.auth_token);
-
         // Serialize user data
         this.setUserInfo({
           'hasura_id': result.hasura_id,
@@ -134,7 +135,7 @@ class Auth {
       },
       // Error callback
       (error, isObject) => {
-        let data = isObject ? error.message : error;
+        let data = isObject ? error.code : error;
         // Log errors if no callbacks are provided
         if (onError) { onError(data); } else { appLog(data, true); }
       }

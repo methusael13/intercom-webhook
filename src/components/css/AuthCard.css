@@ -86,6 +86,18 @@
   margin-bottom: 3rem; color: #596377;
 }
 
+.error-box {
+  font-size: 0.9rem; text-align: center;
+  font-family: 'Source Sans Pro';
+  margin-bottom: 1.5rem;
+}
+.error-box > span {
+  padding: 0.15em 1.4em;
+  background-color: #F44336;
+  color: #ffffff; border-radius: 4px;
+  box-shadow: 0 0 2em rgba(244, 67, 54, 0.38);
+}
+
 .input-wrapper > .input-username, .input-wrapper > .input-password {
   font-family: 'Lato', Arial, sans-serif;
   width: 100%; border: none;

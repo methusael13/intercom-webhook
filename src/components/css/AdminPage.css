@@ -24,6 +24,7 @@
 .logo-wrapper > .icon {}
 .logo-wrapper > .title {
   margin-left: 0.8em; letter-spacing: 0.2em;
+  cursor: pointer;
 }
 .app-panel > .logo-wrapper { margin-left: -1.6em; }
 

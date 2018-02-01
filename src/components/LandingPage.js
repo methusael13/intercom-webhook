@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router';
 
 import Page, { Logo } from './Page';
 import { Button } from './Button';
@@ -11,8 +12,12 @@ class LandingPage extends Component {
   constructor(props) {
     super(props);
     
-    this.state = { authCardVisible: false };
+    // Bind functions to this
     this.toggleAuthCard = this.toggleAuthCard.bind(this);
+    this.triggerDashboard = this.triggerDashboard.bind(this);
+    this.onAuthSubmitSuccess = this.onAuthSubmitSuccess.bind(this);
+
+    this.state = { authCardVisible: false, redirectToDashboard: false };
 
     // Reference to Canvas DOM
     this.canvas = null;
@@ -25,13 +30,33 @@ class LandingPage extends Component {
     this.canvasWorker.initiate();
   }
 
-  toggleAuthCard(event) {
-    this.setState((prevState, props) => {
-      return { authCardVisible: !prevState.authCardVisible };
-    });
+  onAuthSubmitSuccess() {
+    // Unnecessary, but still
+    this.toggleAuthCard(false);
+    // Try redirect
+    this.triggerDashboard(null);
   }
 
+  triggerDashboard(event) {
+    // Open Auth card if user isn't looged in
+    if (!window.auth.isLoggedIn())
+      this.toggleAuthCard(true);
+    else {
+      // Else, Redirect to dashboard
+      this.setState({ redirectToDashboard: true });
+    }
+  }
+
+  componentWillUnmount() {
+    // Cleanup canvas worker processes
+    this.canvasWorker && this.canvasWorker.dispose();
+  }
+
+  toggleAuthCard(visible) { this.setState({ authCardVisible: visible }); }
+
   render() {
+    if (this.state.redirectToDashboard) { return (<Redirect to="/dashboard" />); }
+
     return (
       <Page className="app-page-user">
         <div className="app-content app-container">
@@ -56,7 +81,7 @@ class LandingPage extends Component {
           <div className="content-right">
             <Button className="btn-dashboard" text="Open Dashboard"
                     icons={{ 'idle': 'fa-long-arrow-right' }}
-                    onClick={this.toggleAuthCard} />
+                    onClick={this.triggerDashboard} />
           </div>
         </div>
         <div className="canvas-wrapper">
@@ -65,7 +90,9 @@ class LandingPage extends Component {
         </div>
         {
           this.state.authCardVisible &&
-          <AuthCard coverImage='/static/images/login-cover.jpg' onClose={this.toggleAuthCard} />
+          <AuthCard coverImage='/static/images/login-cover.jpg'
+                    onClose={(event) => { this.toggleAuthCard(false); }}
+                    onSubmitSuccess={this.onAuthSubmitSuccess} />
         }
       </Page>
     )

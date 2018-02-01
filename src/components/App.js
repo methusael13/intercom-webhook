@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router';
 import { Switch, Route } from 'react-router-dom';
 
 import AdminPage from './AdminPage';
@@ -10,7 +11,19 @@ class AppRouter extends Component {
     return (
       <Switch>
         <Route exact path='/' component={LandingPage} />
-        <Route exact path='/dashboard' component={AdminPage} />
+        <Route exact path='/dashboard' render={(props) => {
+          // Protected route, check if user is logged in
+          if (window.auth.isLoggedIn())
+            return (<AdminPage username={window.auth.getUsername()} />);
+          else {
+            // Redirect to main page
+            return (<Redirect to="/" />);
+          }
+        }} />
+        // Default route, in case path doesn't match
+        <Route exact path='*' render={(props) => {
+          return (<Redirect to="/" />);
+        }} />
       </Switch>
     )
   }

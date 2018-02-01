@@ -12,7 +12,7 @@ import './index.css';
 class Root extends Component {
   componentWillMount() {
     // Initiate all required global contexts here
-    window.auth = new Auth;
+    window.auth = new Auth();
     window.appLog = appLog;
   }
 

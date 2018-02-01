@@ -8,6 +8,7 @@ const triggerAnimationLoop = (stepFn) => {
     window.mozRequestAnimationFrame || window.msRequestAnimationFrame ||
     window.oRequestAnimationFrame;
 
+  let requestID;
   // Time keepers (How grand!)
   // Time measured in milliseconds
   var ptime = Date.now(); var epoch = ptime;
@@ -21,11 +22,11 @@ const triggerAnimationLoop = (stepFn) => {
     ptime = ctime;
 
     // Hook current function for callback on next frame
-    requestAnimationFrame(step);
+    requestID = requestAnimationFrame(step);
   }
 
-  // Initiate loop
-  step();
+  // Initiate loop and return the request id
+  step(); return requestID;
 }
 
 class CanvasWorker {
@@ -37,6 +38,7 @@ class CanvasWorker {
     this.ctx = this.canvas.getContext('2d');
 
     // Bind class methods
+    this.dispose = this.dispose.bind(this);
     this.initiate = this.initiate.bind(this);
     this.updateDimensions = this.updateDimensions.bind(this);
     
@@ -119,7 +121,12 @@ class CanvasWorker {
   }
 
   initiate() {
-    triggerAnimationLoop(this.step);
+    this.requestID = triggerAnimationLoop(this.step);
+  }
+
+  dispose() {
+    // Stop the running animation loop
+    this.requestID && window.cancelAnimationFrame(this.requestID);
   }
 }
 

@@ -96,12 +96,15 @@ class AuthCard extends Component {
     this.styles = {
       backgroundImage: 'url(' + this.props.coverImage + ')'
     }
-    this.state = { username: '', password: '', errors: null };
+    this.state = {
+      username: '', password: '', errors: {},
+      buttonState: 'idle'
+    };
 
     // Login button state texts
     this.loginTexts = {
       'idle': 'Login now', 'processing': 'Logging in',
-      'success': 'Logged in', 'error': 'Error'
+      'success': 'Redirecting', 'error': 'Error'
     };
 
     // Reference to the Form DOM
@@ -117,7 +120,7 @@ class AuthCard extends Component {
   getValidationErrors() {
     // Error info
     let error = {};
-    
+  
     // Check if username violates any validation rules
     if (this.state.username.length === 0)
       error.username = 'Username cannot be empty';
@@ -128,8 +131,7 @@ class AuthCard extends Component {
     else if (this.state.password.length < 6)
       error.password = 'Password must be greater than 5 characters';
 
-    // Return null if {error} is empty, or else the object itself
-    return Object.keys(error).length === 0 ? null : error;
+    return error;
   }
 
   handleTextChange(event) {
@@ -138,6 +140,8 @@ class AuthCard extends Component {
     // If {_errors} is valid, reset the error value for
     // currently active textfield
     if (_errors) { _errors[event.target.name] = null; }
+    // Reset submit error
+    _errors.submitError = null;
 
     this.setState({
       [event.target.name]: event.target.value, errors: _errors
@@ -145,12 +149,41 @@ class AuthCard extends Component {
   }
 
   triggerLogin(event) {
-    let _errors = {};
+    let _errors = this.getValidationErrors();
 
-    if ((_errors = this.getValidationErrors())) {
+    if (Object.keys(_errors).length !== 0) {
+      // Errors exist, data invalid
       this.setState({ errors: { ..._errors } });
     } else {
-      // Perform login here
+      const { username, password } = this.state;
+      // Indicate login process on button
+      this.setState({ buttonState: 'processing' });
+
+      // Perform login
+      window.auth.login(
+        username, password,
+        (data) => {
+          // Successfully logged in
+          this.setState({ buttonState: 'success' });
+          // Pause a second and trigger a submit callback
+          setTimeout((props) => {
+            props.onSubmitSuccess && props.onSubmitSuccess();
+          }, 1000, this.props);
+        },
+        (error) => {
+          // Error while logging in
+          let error_msg = 'Network error';
+          this.setState({ buttonState: 'idle' });
+
+          if (error === window.auth.INVALID_CREDENTIALS)
+            error_msg = 'Invalid credentials';
+          
+          // Set the error
+          this.setState((prevState, props) => {
+            return { errors: { ...prevState.errors, submitError: error_msg } };
+          });
+        }
+      )
     }
   }
 
@@ -158,7 +191,7 @@ class AuthCard extends Component {
 
   render() {
     // Test for validation errors
-    let _errors = this.state.errors ? this.state.errors : {};
+    const { errors } = this.state;
 
     return (
       <ModalWindow>
@@ -178,16 +211,24 @@ class AuthCard extends Component {
             <CloseButton size="1rem" onClick={this.triggerClose} />
             <form className="auth-login-form" ref={(dom) => { this.form = dom; }} >
               <div className="form-title">Sign in to Dashboard</div>
+              {
+                errors.submitError &&
+                (
+                  <div className="submit-error error-box">
+                    <span>{errors.submitError}</span>
+                  </div>
+                )
+              }
               <TextField className="input-username" icon="fa-user" name="username"
                          placeholder="Username" value={this.state.username}
                          onTextChange={this.handleTextChange}
-                         error={ _errors.username } />
+                         error={ errors.username } />
               <PasswordField className="input-password" name="password"
                              placeholder="Password" value={this.state.password}
                              onTextChange={this.handleTextChange}
-                             error={ _errors.password } />
+                             error={ errors.password } />
               <SubmitButton onSubmit={this.triggerLogin} values={this.loginTexts}
-                            className="btn-login" state="idle" />
+                            className="btn-login" state={this.state.buttonState} />
             </form>
           </div>
         </div>

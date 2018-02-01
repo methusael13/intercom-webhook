@@ -8,7 +8,7 @@ export class Logo extends Component {
         <span className="icon theme-text-accent">
           <i className="fa fa-code" aria-hidden="true"></i>
         </span>
-        <span className="title">{this.props.title}</span>
+        <span className="title" onClick={this.props.onClick}>{this.props.title}</span>
       </div>
     )
   }
