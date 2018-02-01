@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
 
-import Page, { Logo } from './Page';
+import Page from './Page';
 import { Button } from './Button';
 import AuthCard from './AuthCard';
 import CanvasWorker from './CanvasWorker';

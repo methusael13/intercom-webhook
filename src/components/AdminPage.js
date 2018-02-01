@@ -98,7 +98,6 @@ class AdminPage extends Component {
 
   render() {
     if (this.state.redirectToMain) {
-      console.log('Redirecting to: ' + '/');
       return (<Redirect to="/" />);
     }
 
