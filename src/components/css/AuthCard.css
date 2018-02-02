@@ -105,6 +105,11 @@
   padding: 0.6em 0.8em; border-radius: 5px;
   padding-left: 2.4em; color: inherit;
 }
+.input-wrapper > .input-username:required,
+.input-wrapper > .input-password:required {
+  /* Fix for Mozilla with its default red shadow for required fields */
+  box-shadow: unset;
+}
 .input-wrapper > .input-username {}
 .input-wrapper > .input-password {}
 .input-wrapper > .error-text {

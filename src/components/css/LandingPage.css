@@ -25,7 +25,7 @@
   margin-right: 0.5rem;
 
   /* Image properties */
-  background-image: url(/static/images/hasura.webp);
+  background-image: url("/static/images/hasura.png");
   background-size: contain;
   background-position: center;
 

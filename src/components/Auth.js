@@ -89,7 +89,7 @@ class Auth {
   login(_username, _password, onSuccess, onError) {
     // Populate user data
     this.setUsername(_username);
-    
+
     let user_data = {
       "provider": "username",
       "data": { "username": this.user.username, "password": _password }

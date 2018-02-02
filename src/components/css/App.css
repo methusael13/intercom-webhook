@@ -1,4 +1,10 @@
-* { outline: none; box-sizing: border-box; }
+* {
+  outline: none; outline-width: 0;
+  box-sizing: border-box;
+}
+
+/* Fix for Firefox's unwanted dotted line */
+button::-moz-focus-inner { border: none; }
 
 .app { height: 100%; }
 
