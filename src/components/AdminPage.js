@@ -47,14 +47,21 @@ class AdminPage extends Component {
 
     // Decides if DataTable should clear its data on render
     this.state = {
-      clearTable: false, redirectToMain: false,
-      logoutText: 'Logout'
+      clearTable: false, uploadTable: false,
+      redirectToMain: false, logoutText: 'Logout',
+      submitStatus: 'idle'
     };
 
     // Bind class methods
     this.triggerTableClear = this.triggerTableClear.bind(this);
     this.triggerDataUpload = this.triggerDataUpload.bind(this);
     this.triggerLogout = this.triggerLogout.bind(this);
+    this.onUploadStatusChanged = this.onUploadStatusChanged.bind(this);
+  }
+
+  onUploadStatusChanged(status) {
+    // Should change button status to provide upload feedback
+    this.setState({ submitStatus: status });
   }
 
   triggerLogout() {
@@ -72,29 +79,27 @@ class AdminPage extends Component {
     )
   }
 
-  triggerDataUpload(event) { console.log('Uploading data...'); }
-
   triggerTableClear(event) { this.setState({ clearTable: true }); }
+  triggerDataUpload(event) { this.setState({ uploadTable: true }); }
 
   componentDidUpdate(prevProps, prevState) {
-    // Reset clear state.
-    // Makes sure table doesn't clear on next render
-    this.setState({ clearTable: false });
+    // Reset clear and upload state.
+    // Makes sure table doesn't auto clear or upload on next render
+    this.setState({ clearTable: false, uploadTable: false });
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     // Ensure component doesn't enter an update loop
     return (
       this.state.clearTable !== nextState.clearTable ||
+      this.state.uploadTable !== nextState.uploadTable ||
       this.state.redirectToMain !== nextState.redirectToMain ||
       this.state.logoutText !== nextState.logoutText
     );
   }
 
   render() {
-    if (this.state.redirectToMain) {
-      return (<Redirect to="/" />);
-    }
+    if (this.state.redirectToMain) { return (<Redirect to="/" />); }
 
     return (
       <Page className="app-page-admin">
@@ -104,9 +109,11 @@ class AdminPage extends Component {
         <div className="app-content app-container">
           <div className="btn-panel">
             <Button className="btn-clear" text="Clear" onClick={this.triggerTableClear} />
-            <SubmitButton onSubmit={this.triggerDataUpload} className="btn-login" state="idle" />
+            <SubmitButton onSubmit={this.triggerDataUpload} className="btn-login"
+                          state={this.state.submitStatus} />
           </div>
-          <DataTable clearTable={this.state.clearTable} />
+          <DataTable clearTable={this.state.clearTable} uploadTable={this.state.uploadTable}
+                     notifyUploadStatus={this.onUploadStatusChanged} />
         </div>
       </Page>
     )

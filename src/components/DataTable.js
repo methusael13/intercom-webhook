@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { mFetch } from './Auth';
+
 import './css/DataTable.css';
 
 class DataRow extends Component {
@@ -104,8 +106,10 @@ class DataTable extends Component {
     // An array of { key: ..., msessage: ... }
     this.state = { data: [] }
 
+    // Bind functions to this
     this.addRow = this.addRow.bind(this);
     this.deleteRow = this.deleteRow.bind(this);
+    this.uploadTableData = this.uploadTableData.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -113,6 +117,18 @@ class DataTable extends Component {
       // Flush table data down the gutter
       this.setState({ data: [] });
     }
+
+    if (nextProps.uploadTable === true) {
+      // Upload table data
+      this.uploadTableData();
+    }
+  }
+
+  uploadTableData() {
+    // Notify parent of upload status
+    this.props.notifyUploadStatus('processing');
+
+    // Use mFetch to upload data
   }
 
   addRow(key, message) {

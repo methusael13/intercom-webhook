@@ -65,7 +65,11 @@ export class SubmitButton extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit(event) { this.props.onSubmit(event); }
+  handleSubmit(event) {
+    // Allow submit only if status is idle
+    if (this.props.state === 'idle')
+      this.props.onSubmit(event);
+  }
 
   render() {
     return (
