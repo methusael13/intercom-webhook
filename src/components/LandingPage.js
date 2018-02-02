@@ -73,7 +73,7 @@ class LandingPage extends Component {
               <span className="text">
                 Webhook allows our app to receive notifications, such as
                 conversation replies and users being created in real-time
-                using the Intercom coversation app. We simply automate our
+                using the Intercom conversation app. We simply automate our
                 replies based on the received message.
               </span>
             </div>
