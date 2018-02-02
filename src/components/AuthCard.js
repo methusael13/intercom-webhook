@@ -198,10 +198,10 @@ class AuthCard extends Component {
 
   render() {
     // Test for validation errors
-    const { errors, hidden, animEntry } = this.state;
+    const { errors, animEntry } = this.state;
 
     // Card component
-    const cardComponent = ((interpolatedStyle) => {
+    const cardComponent = (interpolatedStyle) => {
       return (
         <div className="auth-card auth-card-position"
              style={{ opacity: interpolatedStyle.opacity, top: interpolatedStyle.top + "%" }}>
@@ -238,7 +238,7 @@ class AuthCard extends Component {
           </div>
         </div>
       );
-    }).bind(this);
+    };
 
     // Define entry and exit interpolation values
     const cAnim = this.animProps.card[animEntry ? 'entry' : 'exit'];
