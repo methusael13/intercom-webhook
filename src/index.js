@@ -12,11 +12,9 @@ import './index.css';
 class Root extends Component {
   constructor(props) {
     super(props);
-    console.log('Refreshing');
 
     // Initiate global contructs
-    window.auth = new Auth();
-    window.appLog = appLog;
+    window.auth = new Auth(); window.appLog = appLog;
   }
 
   render() {

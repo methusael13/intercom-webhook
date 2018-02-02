@@ -20,9 +20,7 @@ class Page extends Component {
     if (this.props.className) klass += " " + this.props.className;
 
     return (
-      <div className={klass}>
-        {this.props.children}
-      </div>
+      <div className={klass}>{this.props.children}</div>
     )
   }
 }

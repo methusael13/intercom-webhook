@@ -8,7 +8,7 @@ import './css/App.css';
 
 class AppRouter extends Component {
   render() {
-    // "/dashboard" is protected, will on redirect if user is logged in
+    // "/dashboard" is protected, will only redirect if user is logged in
     return (
       <Switch>
         <Route exact path='/' component={LandingPage} />
