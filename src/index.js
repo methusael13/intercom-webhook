@@ -10,8 +10,11 @@ import { appLog } from './components/UtilComponents';
 import './index.css';
 
 class Root extends Component {
-  componentWillMount() {
-    // Initiate all required global contexts here
+  constructor(props) {
+    super(props);
+    console.log('Refreshing');
+
+    // Initiate global contructs
     window.auth = new Auth();
     window.appLog = appLog;
   }

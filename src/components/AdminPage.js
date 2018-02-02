@@ -28,7 +28,7 @@ class Header extends Component {
       <div className="app-header theme-text-header-normal">
         <div className="app-container">
           <div className="app-panel">
-            <Logo title="Intercom Webhook" onClick={this.props.onHomeTriggered} />
+            <Logo title="Intercom Webhook" />
             <UserControl user={this.props.username} controlText={this.props.logoutText}
                          onLogoutTriggered={this.props.onLogout} />
           </div>
@@ -55,11 +55,6 @@ class AdminPage extends Component {
     this.triggerTableClear = this.triggerTableClear.bind(this);
     this.triggerDataUpload = this.triggerDataUpload.bind(this);
     this.triggerLogout = this.triggerLogout.bind(this);
-    this.triggerHomeRedirect = this.triggerHomeRedirect.bind(this);
-  }
-
-  triggerHomeRedirect() {
-    this.setState({ redirectToMain: true });
   }
 
   triggerLogout() {
@@ -105,8 +100,7 @@ class AdminPage extends Component {
       <Page className="app-page-admin">
         <Header screenTitle="Dashboard" username={this.props.username}
                 logoutText={this.state.logoutText}
-                onLogout={this.triggerLogout}
-                onHomeTriggered={this.triggerHomeRedirect} />
+                onLogout={this.triggerLogout} />
         <div className="app-content app-container">
           <div className="btn-panel">
             <Button className="btn-clear" text="Clear" onClick={this.triggerTableClear} />

@@ -3,14 +3,6 @@ import { appLog } from './UtilComponents';
 
 const LOCAL_STORAGE = window.localStorage;
 
-// Default anonymous user object
-const ANONYMOUS_USER = {
-  id: 0,
-  username: 'anonymous',
-  roles: ['anonymous'],
-  token: null
-};
-
 const HASURA_DEFAULT_HEADERS = {
   'Accept': 'application/json',
   'Content-Type': 'application/json; charset=utf-8'
@@ -38,14 +30,12 @@ export const mFetch = (url, request_options, onSuccess, onError) => {
 
 class Auth {
   constructor() {
-    const _user = LOCAL_STORAGE.getItem('hasura_intercom.user');
+    let _user = LOCAL_STORAGE.getItem('hasura_intercom.user');
 
     if (_user) {
       // {_user} is a stringified JSON
       this.user = JSON.parse(_user);
-    } else {
-      this.user = ANONYMOUS_USER;
-    }
+    } else { this.user = {}; }
 
     // Hasura app configuration
     this.config = { cluster: 'cannibalism26' }
@@ -92,14 +82,9 @@ class Auth {
     LOCAL_STORAGE.setItem('hasura_intercom.user', JSON.stringify(this.user));
   }
 
-  clearUser() {
-    this.user = ANONYMOUS_USER;
-    this.saveUser();
-  }
-
   clearSession() { this.clearUser(); }
-
-  isLoggedIn() { return this.user.token !== null; }
+  clearUser() { this.user = {}; this.saveUser(); }
+  isLoggedIn() { return this.user && this.user.token; }
 
   login(_username, _password, onSuccess, onError) {
     // Populate user data
