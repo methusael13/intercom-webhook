@@ -20,3 +20,26 @@
   transform-origin: left center;
   transform: rotate(45deg);
 }
+
+/* Message boxes */
+.msg-box {
+  font-size: 0.9rem; text-align: center;
+  font-family: 'Source Sans Pro';
+}
+.msg-box > span {
+  padding: 0.15em 1.4em;
+  color: #ffffff; border-radius: 4px;
+}
+
+.msg-box.type-error > span {
+  background-color: #F44336;
+  box-shadow: 0 0 2em rgba(244, 67, 54, 0.38);
+}
+.msg-box.type-info > span {
+  background-color: #03A9F4;
+  box-shadow: 0 0 2em rgba(3, 169, 244, 0.38);
+}
+.msg-box.type-warning > span {
+  background-color: #FFC107;
+  box-shadow: 0 0 2em rgba(255, 193, 7, 0.38);
+}

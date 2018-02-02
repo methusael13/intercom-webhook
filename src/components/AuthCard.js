@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { SubmitButton } from './Button';
-import { CloseButton } from './UtilComponents';
+import { CloseButton, MessageBox } from './UtilComponents';
 
 import './css/AuthCard.css';
 
@@ -213,11 +213,7 @@ class AuthCard extends Component {
               <div className="form-title">Sign in to Dashboard</div>
               {
                 errors.submitError &&
-                (
-                  <div className="submit-error error-box">
-                    <span>{errors.submitError}</span>
-                  </div>
-                )
+                <MessageBox message={errors.submitError} className="submit-error" type="error" />
               }
               <TextField className="input-username" icon="fa-user" name="username"
                          placeholder="Username" value={this.state.username}

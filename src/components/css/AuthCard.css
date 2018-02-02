@@ -66,6 +66,9 @@
 .auth-login-form > *:last-child {
   margin-bottom: 0; margin-top: 0.5rem;
 }
+
+.auth-login-form .msg-box { margin-bottom: 1.5rem; }
+
 .input-wrapper {
   position: relative; color: #00000080;
 }
@@ -84,18 +87,6 @@
   font-family: 'Open Sans'; text-align: center;
   font-weight: 300; font-size: 2rem;
   margin-bottom: 3rem; color: #596377;
-}
-
-.error-box {
-  font-size: 0.9rem; text-align: center;
-  font-family: 'Source Sans Pro';
-  margin-bottom: 1.5rem;
-}
-.error-box > span {
-  padding: 0.15em 1.4em;
-  background-color: #F44336;
-  color: #ffffff; border-radius: 4px;
-  box-shadow: 0 0 2em rgba(244, 67, 54, 0.38);
 }
 
 .input-wrapper > .input-username, .input-wrapper > .input-password {

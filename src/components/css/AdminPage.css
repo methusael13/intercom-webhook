@@ -46,10 +46,11 @@
 .app-content { padding: 2em 0; }
 
 /* Action buttons */
-.btn-panel {}
-.app-content > .btn-panel {
-  text-align: right; margin-bottom: 1rem;
+.app-control-panel {
+  display: flex; justify-content: space-between;
+  align-items: center;
 }
+.app-content > .app-control-panel { margin-bottom: 1rem; }
 
 .btn-panel > button { margin-right: 1rem; }
 .btn-panel > button:last-child { margin-right: 0; }

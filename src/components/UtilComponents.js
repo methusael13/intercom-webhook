@@ -11,6 +11,31 @@ export const appLog = (msg, error = false) => {
   }
 }
 
+export class MessageBox extends Component {
+  constructor(props) {
+    super(props);
+
+    // Object to map type and style classes
+    this.styleMap = {
+      'info': 'type-info', 'error': 'type-error',
+      'warning': 'type-warning'
+    };
+  }
+
+  render() {
+    const { message, type } = this.props;
+    let klass = "msg-box " + this.styleMap[type];
+
+    // Prepend custom class if available
+    if (this.props.className)
+      klass = this.props.className + " " + klass;
+
+    return (
+      <div className={klass}><span>{message}</span></div>
+    )
+  }
+}
+
 export class CloseButton extends Component {
   constructor(props) {
     super(props);

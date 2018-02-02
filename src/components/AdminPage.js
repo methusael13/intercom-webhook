@@ -4,6 +4,7 @@ import { Redirect } from 'react-router';
 import Page, { Logo } from './Page';
 import DataTable from './DataTable';
 import { Button, SubmitButton } from './Button';
+import { MessageBox } from './UtilComponents';
 
 import './css/AdminPage.css';
 
@@ -107,10 +108,13 @@ class AdminPage extends Component {
                 logoutText={this.state.logoutText}
                 onLogout={this.triggerLogout} />
         <div className="app-content app-container">
-          <div className="btn-panel">
-            <Button className="btn-clear" text="Clear" onClick={this.triggerTableClear} />
-            <SubmitButton onSubmit={this.triggerDataUpload} className="btn-login"
-                          state={this.state.submitStatus} />
+          <div className="app-control-panel">
+            <div></div>
+            <div className="btn-panel">
+              <Button className="btn-clear" text="Clear" onClick={this.triggerTableClear} />
+              <SubmitButton onSubmit={this.triggerDataUpload} className="btn-login"
+                            state={this.state.submitStatus} />
+            </div>
           </div>
           <DataTable clearTable={this.state.clearTable} uploadTable={this.state.uploadTable}
                      notifyUploadStatus={this.onUploadStatusChanged} />
