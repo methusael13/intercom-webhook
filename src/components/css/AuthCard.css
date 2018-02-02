@@ -4,11 +4,11 @@
   top: 0; left: 0; right: 0; bottom: 0;
   z-index: 500;
 }
-.modal-window-container {
+.modal-window-container, .modal-window-panel {
   position: relative;
   width: 100%; height: 100%;
-  background-color: #ffffffd4;
 }
+.modal-window-panel { background-color: #ffffffd4; }
 
 .auth-card {
   width: 50rem; height: 30.5rem;
@@ -16,10 +16,8 @@
   display: flex; border-radius: 8px;
   box-shadow: 0 0 8rem rgba(0, 0, 0, 0.2);
 }
-
 .auth-card-position {
-  position: absolute;
-  top: 50%; left: 50%;
+  position: absolute; left: 50%;
   transform: translate(-50%, -50%);
 }
 
@@ -67,7 +65,12 @@
   margin-bottom: 0; margin-top: 0.5rem;
 }
 
-.auth-login-form .msg-box { margin-bottom: 1.5rem; }
+.auth-login-form .submit-error {
+  margin: 0;
+  /* Center horizontally */
+  left: 50%; transform: translateX(-50%);
+  top: 42%;
+}
 
 .input-wrapper {
   position: relative; color: #00000080;
@@ -86,7 +89,7 @@
 .form-title {
   font-family: 'Open Sans'; text-align: center;
   font-weight: 300; font-size: 2rem;
-  margin-bottom: 3rem; color: #596377;
+  margin-bottom: 4rem; color: #596377;
 }
 
 .input-wrapper > .input-username, .input-wrapper > .input-password {

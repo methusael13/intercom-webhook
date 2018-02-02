@@ -23,6 +23,7 @@
 
 /* Message boxes */
 .msg-box {
+  position: absolute;
   font-size: 0.9rem; text-align: center;
   font-family: 'Source Sans Pro';
 }

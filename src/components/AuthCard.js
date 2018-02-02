@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Motion, spring } from 'react-motion';
 
 import { SubmitButton } from './Button';
 import { CloseButton, MessageBox } from './UtilComponents';
@@ -65,30 +66,6 @@ class PasswordField extends Component {
   }
 }
 
-/**
- * Provides a full window room for components.
- * Captures all pointer events outside the children component
- * regions, and prevents them from bubbling further.
- */
-class ModalWindow extends Component {
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick(event) { event.preventDefault(); }
-
-  render() {
-    return (
-      <div className="modal-window">
-        <div className="modal-window-container" onClick={this.handleClick}>
-        {this.props.children}
-        </div>
-      </div>
-    )
-  }
-}
-
 class AuthCard extends Component {
   constructor(props) {
     super(props);
@@ -98,7 +75,7 @@ class AuthCard extends Component {
     }
     this.state = {
       username: '', password: '', errors: {},
-      buttonState: 'idle'
+      buttonState: 'idle', animEntry: true
     };
 
     // Login button state texts
@@ -110,11 +87,30 @@ class AuthCard extends Component {
     // Reference to the Form DOM
     this.form = null;
 
+    // Animation style definitions
+    this.animProps = {
+      'card': {
+        'entry': {
+          'start': { opacity: 0, top: 60 },
+          'end': { opacity: spring(1), top: spring(50) }
+        },
+        'exit': {
+          'start': { opacity: 1, top: 50 },
+          'end': { opacity: spring(0), top: spring(60) }
+        }
+      },
+      'modal': {
+        'entry': { 'start': { opacity: 0 }, 'end': { opacity: spring(1) } },
+        'exit': { 'start': { opacity: 1 }, 'end': { opacity: spring(0) } }
+      }
+    };
+
     // Bind methods to this
     this.triggerLogin = this.triggerLogin.bind(this);
     this.triggerClose = this.triggerClose.bind(this);
     this.getValidationErrors = this.getValidationErrors.bind(this);
     this.handleTextChange = this.handleTextChange.bind(this);
+    this.handleAnimationEnd = this.handleAnimationEnd.bind(this);
   }
 
   getValidationErrors() {
@@ -146,6 +142,14 @@ class AuthCard extends Component {
     this.setState({
       [event.target.name]: event.target.value, errors: _errors
     });
+  }
+
+  handleAnimationEnd() {
+    // Only need to handle animations if we're exiting
+    if (this.state.animEntry === false) {
+      // We're done animating exit, call exit function
+      this.props.onClose && this.props.onClose();
+    }
   }
 
   triggerLogin(event) {
@@ -187,15 +191,20 @@ class AuthCard extends Component {
     }
   }
 
-  triggerClose(event) { this.props.onClose && this.props.onClose(event); }
+  triggerClose(event) {
+    // Trigger exit animation
+    this.setState({ animEntry: false });
+  }
 
   render() {
     // Test for validation errors
-    const { errors } = this.state;
+    const { errors, hidden, animEntry } = this.state;
 
-    return (
-      <ModalWindow>
-        <div className="auth-card auth-card-position">
+    // Card component
+    const cardComponent = ((interpolatedStyle) => {
+      return (
+        <div className="auth-card auth-card-position"
+             style={{ opacity: interpolatedStyle.opacity, top: interpolatedStyle.top + "%" }}>
           <div className="auth-card-adv" style={this.styles}>
             <div className="auth-card-adv-container">
               <div className="disclaimer">
@@ -228,7 +237,31 @@ class AuthCard extends Component {
             </form>
           </div>
         </div>
-      </ModalWindow>
+      );
+    }).bind(this);
+
+    // Define entry and exit interpolation values
+    const cAnim = this.animProps.card[animEntry ? 'entry' : 'exit'];
+    const mAnim = this.animProps.modal[animEntry ? 'entry' : 'exit'];
+
+    return (
+      <div className="modal-window" onClick={(event) => { event.preventDefault(); }}>
+        <div className="modal-window-container">
+          {/* The animated background panel */}
+          <Motion defaultStyle={mAnim.start} style={mAnim.end}>
+          {
+            interpStyle => (
+              <div className="modal-window-panel" style={{ opacity: interpStyle.opacity }}></div>
+            )
+          }
+          </Motion>
+
+          {/* The animated card component */}
+          <Motion defaultStyle={cAnim.start} style={cAnim.end} onRest={this.handleAnimationEnd}>
+          { interpStyle => cardComponent(interpStyle) }
+          </Motion>
+        </div>
+      </div>
     )
   }
 }
