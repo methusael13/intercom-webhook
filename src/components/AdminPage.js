@@ -50,7 +50,7 @@ class AdminPage extends Component {
     this.state = {
       clearTable: false, uploadTable: false,
       redirectToMain: false, logoutText: 'Logout',
-      submitStatus: 'idle'
+      submitStatus: 'idle', tableUploadFeedbackMsg: null
     };
 
     // Bind class methods
@@ -95,7 +95,8 @@ class AdminPage extends Component {
       this.state.clearTable !== nextState.clearTable ||
       this.state.uploadTable !== nextState.uploadTable ||
       this.state.redirectToMain !== nextState.redirectToMain ||
-      this.state.logoutText !== nextState.logoutText
+      this.state.logoutText !== nextState.logoutText ||
+      this.state.tableUploadFeedbackMsg !== nextState.tableUploadFeedbackMsg
     );
   }
 
@@ -109,8 +110,12 @@ class AdminPage extends Component {
                 onLogout={this.triggerLogout} />
         <div className="app-content app-container">
           <div className="app-control-panel">
-            <div></div>
-            <div className="btn-panel">
+            {
+              this.state.tableUploadFeedbackMsg &&
+              <MessageBox message="Anything new to upload?" type="warning"
+                          className="table-msg" />
+            }
+            <div className="btn-panel control-item">
               <Button className="btn-clear" text="Clear" onClick={this.triggerTableClear} />
               <SubmitButton onSubmit={this.triggerDataUpload} className="btn-login"
                             state={this.state.submitStatus} />

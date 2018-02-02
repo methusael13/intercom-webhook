@@ -67,7 +67,12 @@
   margin-bottom: 0; margin-top: 0.5rem;
 }
 
-.auth-login-form .msg-box { margin-bottom: 1.5rem; }
+.auth-login-form .submit-error {
+  margin: 0;
+  /* Center horizontally */
+  left: 50%; transform: translateX(-50%);
+  top: 42%;
+}
 
 .input-wrapper {
   position: relative; color: #00000080;
@@ -86,7 +91,7 @@
 .form-title {
   font-family: 'Open Sans'; text-align: center;
   font-weight: 300; font-size: 2rem;
-  margin-bottom: 3rem; color: #596377;
+  margin-bottom: 4rem; color: #596377;
 }
 
 .input-wrapper > .input-username, .input-wrapper > .input-password {

@@ -46,9 +46,12 @@
 .app-content { padding: 2em 0; }
 
 /* Action buttons */
-.app-control-panel {
-  display: flex; justify-content: space-between;
-  align-items: center;
+.app-control-panel { text-align: right; position: relative; }
+.app-control-panel > .control-item { display: inline-block; }
+.app-control-panel > .table-msg {
+  left: 0;
+  /* Center vertically */
+  top: 50%; transform: translateY(-50%);
 }
 .app-content > .app-control-panel { margin-bottom: 1rem; }
 
