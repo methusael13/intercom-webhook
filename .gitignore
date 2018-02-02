@@ -60,3 +60,6 @@ typings/
 # Package lock
 package-lock.json
 
+# Build directory
+build
+
