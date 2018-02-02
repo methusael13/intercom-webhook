@@ -245,13 +245,14 @@ class AuthCard extends Component {
     const mAnim = this.animProps.modal[animEntry ? 'entry' : 'exit'];
 
     return (
-      <div className="modal-window" onClick={(event) => { event.preventDefault(); }}>
+      <div className="modal-window">
         <div className="modal-window-container">
           {/* The animated background panel */}
           <Motion defaultStyle={mAnim.start} style={mAnim.end}>
           {
             interpStyle => (
-              <div className="modal-window-panel" style={{ opacity: interpStyle.opacity }}></div>
+              <div className="modal-window-panel" style={{ opacity: interpStyle.opacity }}
+                   onClick={(event) => { event.preventDefault(); this.triggerClose(event); }}></div>
             )
           }
           </Motion>
