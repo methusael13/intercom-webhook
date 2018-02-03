@@ -159,7 +159,6 @@ class AuthCard extends Component {
 
     if (Object.keys(_errors).length !== 0) {
       // Errors exist, data invalid
-      console.log(_errors);
       this.setState({ errors: { ..._errors } });
     } else {
       const { username, password } = this.state;
