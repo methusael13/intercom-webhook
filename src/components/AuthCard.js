@@ -153,10 +153,13 @@ class AuthCard extends Component {
   }
 
   triggerLogin(event) {
+    // Prevent default handling of submit
+    event.preventDefault();
     let _errors = this.getValidationErrors();
 
     if (Object.keys(_errors).length !== 0) {
       // Errors exist, data invalid
+      console.log(_errors);
       this.setState({ errors: { ..._errors } });
     } else {
       const { username, password } = this.state;
