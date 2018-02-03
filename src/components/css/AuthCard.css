@@ -105,7 +105,7 @@
   box-shadow: unset;
 }
 .input-wrapper > .input-username {}
-.input-wrapper > .input-password {}
+.input-wrapper > .input-password { padding-right: 2.2em; }
 .input-wrapper > .error-text {
   position: absolute;
   bottom: -1.3em; right: 0;
