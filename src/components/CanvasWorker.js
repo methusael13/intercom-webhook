@@ -26,7 +26,7 @@ const triggerAnimationLoop = (stepFn) => {
   }
 
   // Initiate loop and return the request id
-  step(); return requestID;
+  step(ptime); return requestID;
 }
 
 class CanvasWorker {
