@@ -62,6 +62,10 @@ class Auth {
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
 
+    // Locks
+    this.tryAcquireLock = this.tryAcquireLock.bind(this);
+    this.releaseLock = this.releaseLock.bind(this);
+
     // Hasura status code constants
     this.INVALID_CREDENTIALS = 'invalid-creds';
   }
@@ -74,7 +78,7 @@ class Auth {
     this.user.id = user_info.hasura_id;
     this.user.roles = user_info.hasura_roles;
     this.user.token = user_info.auth_token;
-    
+
     this.saveUser();
   }
 
@@ -86,7 +90,21 @@ class Auth {
   clearUser() { this.user = {}; this.saveUser(); }
   isLoggedIn() { return this.user && this.user.token; }
 
+  /**
+   * Tries to acquire a lock.
+   * Returns true if successful, false if not
+   */
+  tryAcquireLock() {
+    if (this.auth_lock) return false;
+    this.auth_lock = true; return true;
+  }
+
+  releaseLock() { if (this.auth_lock) delete this.auth_lock; }
+
   login(_username, _password, onSuccess, onError) {
+    // Try to acquire a lock. Return if not successful
+    if (!this.tryAcquireLock()) return;
+
     // Populate user data
     this.setUsername(_username);
 
@@ -117,17 +135,26 @@ class Auth {
         });
 
         onSuccess && onSuccess(this.user.username);
+
+        // Release lock for further calls
+        this.releaseLock();
       },
       // Error callback
       (error, isObject) => {
         let data = isObject ? error.code : error;
         // Log errors if no callbacks are provided
         if (onError) { onError(data); } else { appLog(data, true); }
+
+        // Release lock for further calls
+        this.releaseLock();
       }
     );
   }
 
   logout(onSuccess, onError) {
+    // Try to acquire a lock. Return if not successful
+    if (!this.tryAcquireLock()) return;
+
     // Return if no user is logged in
     if (!this.isLoggedIn()) return;
 
@@ -148,12 +175,18 @@ class Auth {
         // Remove serialized user data
         this.clearSession();
         onSuccess && onSuccess(result.message);
+
+        // Release lock for further calls
+        this.releaseLock();
       },
       // Error callback
       (error, isObject) => {
         let data = isObject ? error.message : error;
         // Log errors if no callbacks are provided
         if (onError) { onError(data); } else { appLog(data, true); }
+
+        // Release lock for further calls
+        this.releaseLock();
       }
     );
   }

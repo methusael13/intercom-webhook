@@ -111,6 +111,11 @@ class AuthCard extends Component {
     this.getValidationErrors = this.getValidationErrors.bind(this);
     this.handleTextChange = this.handleTextChange.bind(this);
     this.handleAnimationEnd = this.handleAnimationEnd.bind(this);
+
+    // Register for submit events
+    window.captureEvents(Event.SUBMIT);
+    // Prevent default handling of submit
+    window.onsubmit = () => { return false; }
   }
 
   getValidationErrors() {
@@ -155,6 +160,7 @@ class AuthCard extends Component {
   triggerLogin(event) {
     // Prevent default handling of submit
     event.preventDefault();
+
     let _errors = this.getValidationErrors();
 
     if (Object.keys(_errors).length !== 0) {
@@ -162,6 +168,10 @@ class AuthCard extends Component {
       this.setState({ errors: { ..._errors } });
     } else {
       const { username, password } = this.state;
+
+      // Return if user is already logged in
+      if (window.auth.isLoggedIn()) return;
+
       // Indicate login process on button
       this.setState({ buttonState: 'processing' });
 
@@ -191,6 +201,8 @@ class AuthCard extends Component {
         }
       )
     }
+
+    return false;
   }
 
   triggerClose(event) {
